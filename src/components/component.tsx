@@ -32,59 +32,45 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ResponsiveLine } from "@nivo/line";
+import Header from "./Header";
 
 export function Component() {
   return (
     <div className="flex flex-col min-h-screen w-full">
-      <header className="flex items-center justify-between bg-background px-4 py-3 shadow-sm sm:px-6">
-        <Link href="#" className="flex items-center gap-2" prefetch={false}>
-          <UserIcon className="h-6 w-6" />
-          <span className="text-lg font-medium">UI Helper</span>
-        </Link>
-        <Link
-          href="#"
-          className="text-muted-foreground hover:text-foreground"
-          prefetch={false}
-        >
-          <GitlabIcon className="h-6 w-6" />
-          <span className="sr-only">GitHub</span>
-        </Link>
-      </header>
+      <Header />
       <main className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 p-4 sm:p-6">
         <div className="flex flex-col gap-6">
-          <div className="flex items-center justify-between">
-            <label htmlFor="settings" className="text-sm font-medium">
-              Settings
-            </label>
-            <Select id="settings" className="w-auto">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </Select>
+          <div className="h-30">
+            <select>
+              <option value="bar">Bar Chart</option>
+            </select>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum
+              sapiente nihil est, maxime aspernatur magnam cupiditate et at in
+              quibusdam quod architecto repellat tempore ipsum aliquam veniam
+              saepe, sunt beatae?
+            </p>
           </div>
           <div className="grid gap-4">
             <Card>
               <CardHeader>
-                <CardTitle>UI Controls</CardTitle>
+                <CardTitle>Controls</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid gap-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <Button variant="outline">Button 1</Button>
-                    <Button variant="outline">Button 2</Button>
+                <div className="flex flex-col">
+                  <div className="bg-secondary">Category</div>
+                  <div className="setting-item flex flex-col gap-2">
+                    <div className="font-bold">setting name</div>
+                    <div>controller</div>
                   </div>
-                  <Slider
-                    min={0}
-                    max={100}
-                    defaultValue={[50]}
-                    aria-label="Slider"
-                  />
-                  <Checkbox id="checkbox1" defaultChecked>
-                    Checkbox
-                  </Checkbox>
-                  <Switch id="switch1" defaultChecked>
-                    Switch
-                  </Switch>
+                  <div className="setting-item flex flex-col gap-2">
+                    <div className="font-bold">setting name</div>
+                    <div>controller</div>
+                  </div>
+                  <div className="setting-item flex flex-col gap-2">
+                    <div className="font-bold">setting name</div>
+                    <div>controller</div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
