@@ -16,6 +16,7 @@ import renderFields from "@/components/renderFields";
 import { VictoryBar, VictoryChart, VictoryPie, VictoryTheme } from "victory";
 import chartData1 from "@/data/chartData1.json";
 import chartData2 from "@/data/chartData2.json";
+import CodeViewer from "@/components/CodeViewer";
 
 // TODO: server component 로 metadata 처리 vs using useState
 // export const metadata = {
@@ -89,24 +90,7 @@ export default function Main() {
               <TabsTrigger value="data">Data</TabsTrigger>
             </TabsList>
             <TabsContent value="code">
-              <Card className="flex-1">
-                <CardHeader>
-                  <CardTitle>React Code</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <pre className="overflow-auto p-4 bg-muted rounded-md">{`
-<VictoryChart
-  theme={VictoryTheme.material}
-  domainPadding={10}
->
-  <VictoryBar
-    style={{ data: { fill: "#c43a31" } }}
-    data={sampleData}
-  />
-</VictoryChart>
-                    `}</pre>
-                </CardContent>
-              </Card>
+              <CodeViewer />
             </TabsContent>
             <TabsContent value="data">
               <Card className="flex-1">
