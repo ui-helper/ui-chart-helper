@@ -13,6 +13,9 @@ import { useState } from "react";
 import { ChartConfig, ChartConfiguration } from "@/types/chartTypes";
 import chartSchema from "@/config/chartSchema.json";
 import renderFields from "@/components/renderFields";
+import { VictoryBar, VictoryChart, VictoryPie, VictoryTheme } from "victory";
+import chartData1 from "@/data/chartData1.json";
+import chartData2 from "@/data/chartData2.json";
 
 // TODO: server component 로 metadata 처리 vs using useState
 // export const metadata = {
@@ -74,7 +77,11 @@ export default function Main() {
 
         <div className="flex flex-col gap-6">
           <div className="h-[500px] bg-muted p-2 rounded-md">
-            Bar Chart Area
+            Chart Area
+            <VictoryChart theme={VictoryTheme.material}>
+              <VictoryBar data={chartData2} />
+            </VictoryChart>
+            {/* <VictoryPie data={chartData2} /> */}
           </div>
           <Tabs defaultValue="code">
             <TabsList>
@@ -108,17 +115,7 @@ export default function Main() {
                 </CardHeader>
                 <CardContent>
                   <pre className="overflow-auto p-4 bg-muted rounded-md">
-                    {JSON.stringify(
-                      [
-                        { x: 1, y: 2 },
-                        { x: 2, y: 3 },
-                        { x: 3, y: 5 },
-                        { x: 4, y: 4 },
-                        { x: 5, y: 6 },
-                      ],
-                      null,
-                      2
-                    )}
+                    {JSON.stringify(chartData2, null, 2)}
                   </pre>
                 </CardContent>
               </Card>
