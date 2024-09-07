@@ -1,0 +1,164 @@
+[
+  {
+    "id": 1,
+    "name": "Bar Chart",
+    "description": "VictoryBar renders a dataset as series of bars. VictoryBar can be composed with VictoryChart to create bar charts.",
+    "schema": [
+      {
+        "chartStyle": {
+          "fillColor": {
+            "type": "hex",
+            "defaultValue": "#000000"
+          },
+          "label": {
+            "color": {
+              "type": "hex",
+              "defaultValue": "#000000"
+            },
+            "fontSize": {
+              "type": "number",
+              "defaultValue": 14
+            }
+          },
+          "stroke": {
+            "color": {
+              "type": "hex",
+              "defaultValue": "#000000"
+            },
+            "width": {
+              "type": "number",
+              "defaultValue": 300
+            }
+          }
+        },
+        "title": {
+          "content": {
+            "type": "string",
+            "defaultValue": "Bar Chart"
+          },
+          "style": {
+            "fontSize": {
+              "type": "number",
+              "defaultValue": 14
+            },
+            "color": {
+              "type": "hex",
+              "defaultValue": "#000000"
+            },
+            "alignment": {
+              "type": "alignment_select",
+              "options": ["left", "center", "right"],
+              "defaultValue": "left"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Pie Chart",
+    "description": "VictoryPie renders a dataset as a pie chart.",
+    "schema": [
+      {
+        "colorScale": {
+          "type": "array of hex",
+          "defaultValue": ["#ff0000", "#00ff00", "#0000ff"]
+        },
+        "labels": {
+          "color": {
+            "type": "hex",
+            "defaultValue": "#000000"
+          },
+          "fontSize": {
+            "type": "number",
+            "defaultValue": 12
+          }
+        },
+        "title": {
+          "content": {
+            "type": "string",
+            "defaultValue": "Pie Chart"
+          },
+          "style": {
+            "fontSize": {
+              "type": "number",
+              "defaultValue": 16
+            },
+            "color": {
+              "type": "hex",
+              "defaultValue": "#000000"
+            },
+            "alignment": {
+              "type": "alignment_select",
+              "options": ["left", "center", "right"],
+              "defaultValue": "center"
+            }
+          }
+        },
+        "style": {
+          "stroke": {
+            "color": {
+              "type": "hex",
+              "defaultValue": "#000000"
+            },
+            "width": {
+              "type": "number",
+              "defaultValue": 1
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Line Chart",
+    "description": "VictoryLine renders a dataset as a single line path.",
+    "schema": [
+      {
+        "lineStyle": {
+          "strokeColor": {
+            "type": "hex",
+            "defaultValue": "#000000"
+          },
+          "strokeWidth": {
+            "type": "number",
+            "defaultValue": 2
+          }
+        },
+        "labels": {
+          "color": {
+            "type": "hex",
+            "defaultValue": "#000000"
+          },
+          "fontSize": {
+            "type": "number",
+            "defaultValue": 12
+          }
+        },
+        "title": {
+          "content": {
+            "type": "string",
+            "defaultValue": "Line Chart"
+          },
+          "style": {
+            "fontSize": {
+              "type": "number",
+              "defaultValue": 16
+            },
+            "color": {
+              "type": "hex",
+              "defaultValue": "#000000"
+            },
+            "alignment": {
+              "type": "alignment_select",
+              "options": ["left", "center", "right"],
+              "defaultValue": "right"
+            }
+          }
+        }
+      }
+    ]
+  }
+]
