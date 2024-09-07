@@ -4,6 +4,7 @@
     "name": "Bar Chart",
     "description": "VictoryBar renders a dataset as series of bars. VictoryBar can be composed with VictoryChart to create bar charts.",
     "schema": {
+      "chartType": "bar",
       "chartStyle": {
         "fillColor": {
           "type": "hex",
@@ -58,6 +59,7 @@
     "name": "Pie Chart",
     "description": "VictoryPie renders a dataset as a pie chart.",
     "schema": {
+      "chartType": "pie",
       "colorScale": {
         "type": "array of hex",
         "value": ["#ff0000", "#00ff00", "#0000ff"]
@@ -112,6 +114,7 @@
     "name": "Line Chart",
     "description": "VictoryLine renders a dataset as a single line path.",
     "schema": {
+      "chartType": "line",
       "lineStyle": {
         "strokeColor": {
           "type": "hex",

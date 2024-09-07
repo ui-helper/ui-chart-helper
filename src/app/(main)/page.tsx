@@ -10,12 +10,13 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useState } from "react";
-import { ChartConfig, ChartConfiguration } from "@/types/chartTypes";
+import { ChartConfig } from "@/types/chartTypes";
 import chartSchema from "@/config/chartSchema.json";
 import renderFields from "@/components/renderFields";
 import { VictoryBar, VictoryChart, VictoryPie, VictoryTheme } from "victory";
 import chartData1 from "@/data/chartData1.json";
 import chartData2 from "@/data/chartData2.json";
+import ChartComponent from "@/components/ChartComponent";
 
 // TODO: server component 로 metadata 처리 vs using useState
 // export const metadata = {
@@ -80,10 +81,9 @@ export default function Main() {
         <div className="flex flex-col gap-6">
           <div className="h-[500px] bg-muted p-2 rounded-md">
             Chart Area
-            <VictoryChart theme={VictoryTheme.material}>
-              <VictoryBar data={chartData2} />
-            </VictoryChart>
-            {/* <VictoryPie data={chartData2} /> */}
+            {selectedChartSchema && (
+              <ChartComponent schema={selectedChartSchema} data={chartData2} />
+            )}
           </div>
           <Tabs defaultValue="code">
             <TabsList>

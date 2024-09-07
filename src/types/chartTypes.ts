@@ -12,6 +12,12 @@ export enum AlignmentControlType {
   RADIO = "alignment_radio",
 }
 
+export enum ChartType {
+  BAR = "bar",
+  PIE = "pie",
+  LINE = "line",
+}
+
 export interface ChartStyle {
   fillColor: {
     type: ColorType.HEX;
@@ -57,6 +63,7 @@ export interface TitleStyle {
 
 export interface ChartControl {
   [key: string]: any; // 인덱스 시그니처 추가
+  chartType: ChartType;
   chartStyle: {
     fillColor: {
       type: "hex";
@@ -113,42 +120,6 @@ export interface ChartConfig {
   schema: ChartControl;
 }
 
-export interface ChartConfiguration {
-  selectedChartId: number;
-  configuredValues: {
-    chartStyle?: {
-      fillColor: string;
-      label: {
-        color: string;
-        fontSize: number;
-      };
-      stroke: {
-        color: string;
-        width: number;
-      };
-    };
-    title: {
-      content: string;
-      style: {
-        fontSize: number;
-        color: string;
-        alignment: AlignmentControlType;
-      };
-    };
-    colorScale?: string[];
-    labels?: {
-      color: string;
-      fontSize: number;
-    };
-    lineStyle?: {
-      strokeColor: string;
-      strokeWidth: number;
-    };
-    style?: {
-      stroke: {
-        color: string;
-        width: number;
-      };
-    };
-  };
-}
+type DataPoint = Record<string, number>;
+
+export type ChartData = DataPoint[];
