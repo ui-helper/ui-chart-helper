@@ -63,7 +63,6 @@ export interface TitleStyle {
 
 export interface ChartControl {
   [key: string]: any; // 인덱스 시그니처 추가
-  chartType: ChartType;
   chartStyle: {
     fillColor: {
       type: "hex";
@@ -117,6 +116,7 @@ export interface ChartConfig {
   id: number;
   name: string;
   description: string;
+  chartType: ChartType;
   schema: ChartControl;
 }
 

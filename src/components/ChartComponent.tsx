@@ -1,5 +1,10 @@
-import { ChartConfig, ChartData, ChartType } from "@/types/chartTypes";
-import { FC } from "react";
+import {
+  ChartConfig,
+  ChartControl,
+  ChartData,
+  ChartType,
+} from "@/types/chartTypes";
+import { FC, useEffect, useState } from "react";
 import {
   VictoryChart,
   VictoryBar,
@@ -8,24 +13,35 @@ import {
   VictoryTheme,
 } from "victory";
 
-interface ChartSchema {
-  schema: {
-    chartType: ChartType;
-  };
-}
-
 interface ChartComponentProps {
-  schema: ChartConfig;
+  config: ChartConfig;
   data: ChartData;
+  formData: ChartControl;
 }
 
-const ChartComponent: FC<ChartComponentProps> = ({ schema, data }) => {
-  const { chartType } = schema.schema;
+const ChartComponent: FC<ChartComponentProps> = ({
+  config,
+  data,
+  formData,
+}) => {
+  const { chartType } = config;
 
   const renderChart = () => {
     switch (chartType) {
       case "bar":
-        return <VictoryBar data={data} />;
+        return (
+          <VictoryBar
+            data={data}
+            style={{
+              data: {
+                fill: formData.chartStyle.fillColor.value,
+                stroke: formData.chartStyle.stroke.color.value,
+                strokeWidth: formData.chartStyle.stroke.width.value,
+              },
+            }}
+            labels={({ datum }) => `(${datum.x},${datum.y})`}
+          />
+        );
       case "pie":
         return <VictoryPie data={data} />;
       case "line":
@@ -36,7 +52,9 @@ const ChartComponent: FC<ChartComponentProps> = ({ schema, data }) => {
   };
 
   return (
-    <VictoryChart theme={VictoryTheme.material}>{renderChart()}</VictoryChart>
+    formData && (
+      <VictoryChart theme={VictoryTheme.material}>{renderChart()}</VictoryChart>
+    )
   );
 };
 

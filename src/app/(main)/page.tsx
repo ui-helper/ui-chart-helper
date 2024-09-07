@@ -9,26 +9,68 @@ import {
 } from "@/components/ui/select";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChartConfig } from "@/types/chartTypes";
-import chartSchema from "@/config/chartSchema.json";
-import renderFields from "@/components/renderFields";
-import { VictoryBar, VictoryChart, VictoryPie, VictoryTheme } from "victory";
+import chartConfig from "@/config/chartConfig.json";
 import chartData1 from "@/data/chartData1.json";
 import chartData2 from "@/data/chartData2.json";
 import CodeViewer from "@/components/CodeViewer";
 import ChartComponent from "@/components/ChartComponent";
-
-// TODO: server component 로 metadata 처리 vs using useState
-// export const metadata = {
-//   title: "Home",
-// };
+import renderFields from "@/components/renderFields";
+import ApplyButton from "@/components/ApplyButton";
 
 export default function Main() {
   const [selectedChartId, setSelectedChartId] = useState<number | null>(null);
-  const selectedChartSchema = (chartSchema as ChartConfig[]).find(
+  const [formData, setFormData] = useState<Record<string, any>>(null);
+
+  const selectedChartConfig = (chartConfig as ChartConfig[]).find(
     (chart) => chart.id === selectedChartId
   );
+
+  useEffect(() => {
+    if (selectedChartConfig && formData) {
+      const updatedSchema = { ...selectedChartConfig.schema };
+      Object.keys(formData).forEach((key) => {
+        const keys = key.split(".");
+        let current = updatedSchema;
+        for (let i = 0; i < keys.length - 1; i++) {
+          current = current[keys[i]];
+        }
+        const lastKey = keys[keys.length - 1];
+        if (
+          current[lastKey] &&
+          current[lastKey].value !== formData[key].value
+        ) {
+          current[lastKey].value = formData[key].value;
+        }
+      });
+      setFormData(updatedSchema);
+    } else if (selectedChartConfig) {
+      setFormData(selectedChartConfig.schema);
+    }
+  }, [selectedChartConfig]);
+
+  const handleChange = (key: string, newValue: any) => {
+    console.log("key", key);
+    console.log("newValue", newValue);
+
+    setFormData((prevData) => {
+      const keys = key.split(".");
+      let current = { ...prevData };
+      let temp = current;
+      for (let i = 0; i < keys.length - 1; i++) {
+        temp[keys[i]] = { ...temp[keys[i]] };
+        temp = temp[keys[i]];
+      }
+      temp[keys[keys.length - 1]] = {
+        ...temp[keys[keys.length - 1]],
+        value: newValue,
+      };
+      return current;
+    });
+
+    console.log("formData", formData);
+  };
 
   return (
     <div className="flex flex-col min-h-screen w-full">
@@ -42,7 +84,7 @@ export default function Main() {
                 <SelectValue placeholder="Chart Type" />
               </SelectTrigger>
               <SelectContent>
-                {chartSchema.map((chart) => (
+                {chartConfig.map((chart) => (
                   <SelectItem key={chart.id} value={String(chart.id)}>
                     {chart.name}
                   </SelectItem>
@@ -51,7 +93,7 @@ export default function Main() {
             </Select>
           </div>
           <div className="text-gray-700">
-            {selectedChartSchema?.description}
+            {selectedChartConfig?.description}
           </div>
           <div className="grid gap-4">
             <Card className="shadow-lg rounded-lg">
@@ -59,12 +101,17 @@ export default function Main() {
                 <CardTitle>Controls</CardTitle>
               </CardHeader>
               <CardContent className="p-4 bg-white rounded-b-lg">
-                {selectedChartSchema ? (
+                {selectedChartConfig ? (
                   <form>
-                    {Object.keys(selectedChartSchema.schema).map(
+                    {Object.keys(selectedChartConfig.schema).map(
                       (key, index) => (
                         <div key={index}>
-                          {renderFields(selectedChartSchema.schema[key])}
+                          {renderFields(
+                            selectedChartConfig.schema[key],
+                            0,
+                            handleChange,
+                            key
+                          )}
                         </div>
                       )
                     )}
@@ -82,8 +129,12 @@ export default function Main() {
         <div className="flex flex-col gap-6">
           <div className="h-[500px] bg-muted p-2 rounded-md">
             Chart Area
-            {selectedChartSchema && (
-              <ChartComponent schema={selectedChartSchema} data={chartData2} />
+            {selectedChartConfig && (
+              <ChartComponent
+                config={selectedChartConfig}
+                data={chartData2}
+                formData={formData}
+              />
             )}
           </div>
           <Tabs defaultValue="code">
