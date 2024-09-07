@@ -16,7 +16,8 @@ const Header = () => {
         <span className="text-lg font-medium">UI Helper</span>
       </Link>
       <Link
-        href="#"
+        href="https://github.com/ui-helper/ui-chart-helper"
+        target="_blank"
         className="text-muted-foreground hover:text-foreground"
         prefetch={false}
       >
