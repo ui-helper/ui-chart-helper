@@ -28,8 +28,6 @@ export default function Main() {
     (chart) => chart.id === selectedChartId
   );
 
-  const configuredValues: ChartConfiguration["configuredValues"] | null = null;
-
   return (
     <div className="flex flex-col min-h-screen w-full">
       <main className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 p-4 sm:p-6">
@@ -61,9 +59,13 @@ export default function Main() {
               <CardContent className="p-4 bg-white rounded-b-lg">
                 {selectedChartSchema ? (
                   <form>
-                    {selectedChartSchema.schema.map((control, index) => (
-                      <div key={index}>{renderFields(control)}</div>
-                    ))}
+                    {Object.keys(selectedChartSchema.schema).map(
+                      (key, index) => (
+                        <div key={index}>
+                          {renderFields(selectedChartSchema.schema[key])}
+                        </div>
+                      )
+                    )}
                   </form>
                 ) : (
                   <div>

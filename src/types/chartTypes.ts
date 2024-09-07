@@ -1,8 +1,13 @@
 export enum ColorType {
   HEX = "hex",
 }
-
 export enum AlignmentType {
+  LEFT = "left",
+  CENTER = "center",
+  RIGHT = "right",
+}
+
+export enum AlignmentControlType {
   SELECT = "alignment_select",
   RADIO = "alignment_radio",
 }
@@ -10,26 +15,26 @@ export enum AlignmentType {
 export interface ChartStyle {
   fillColor: {
     type: ColorType.HEX;
-    defaultValue: string;
+    value: string;
   };
   label: {
     color: {
       type: ColorType.HEX;
-      defaultValue: string;
+      value: string;
     };
     fontSize: {
       type: "number";
-      defaultValue: number;
+      value: number;
     };
   };
   stroke: {
     color: {
       type: ColorType.HEX;
-      defaultValue: string;
+      value: string;
     };
     width: {
       type: "number";
-      defaultValue: number;
+      value: number;
     };
   };
 }
@@ -37,27 +42,67 @@ export interface ChartStyle {
 export interface TitleStyle {
   fontSize: {
     type: "number";
-    defaultValue: number;
+    value: number;
   };
   color: {
     type: ColorType.HEX;
-    defaultValue: string;
+    value: string;
   };
   alignment: {
-    type: AlignmentType;
-    options: ("left" | "center" | "right")[];
-    defaultValue: "left" | "center" | "right";
+    type: AlignmentControlType;
+    options: AlignmentControlType[];
+    value: AlignmentControlType;
   };
 }
 
 export interface ChartControl {
-  chartStyle?: ChartStyle;
+  [key: string]: any; // 인덱스 시그니처 추가
+  chartStyle: {
+    fillColor: {
+      type: "hex";
+      value: string;
+    };
+    label: {
+      color: {
+        type: "hex";
+        value: string;
+      };
+      fontSize: {
+        type: "number";
+        value: number;
+      };
+    };
+    stroke: {
+      color: {
+        type: "hex";
+        value: string;
+      };
+      width: {
+        type: "number";
+        value: number;
+      };
+    };
+  };
   title: {
     content: {
       type: "string";
-      defaultValue: string;
+      value: string;
     };
-    style: TitleStyle;
+    style: {
+      fontSize: {
+        type: "number";
+        value: number;
+      };
+      color: {
+        type: "hex";
+        value: string;
+      };
+      alignment: {
+        type: AlignmentControlType;
+        options: AlignmentControlType[];
+        value: AlignmentControlType;
+      };
+    };
   };
 }
 
@@ -65,7 +110,7 @@ export interface ChartConfig {
   id: number;
   name: string;
   description: string;
-  schema: ChartControl[];
+  schema: ChartControl;
 }
 
 export interface ChartConfiguration {
@@ -87,7 +132,22 @@ export interface ChartConfiguration {
       style: {
         fontSize: number;
         color: string;
-        alignment: "left" | "center" | "right";
+        alignment: AlignmentControlType;
+      };
+    };
+    colorScale?: string[];
+    labels?: {
+      color: string;
+      fontSize: number;
+    };
+    lineStyle?: {
+      strokeColor: string;
+      strokeWidth: number;
+    };
+    style?: {
+      stroke: {
+        color: string;
+        width: number;
       };
     };
   };
