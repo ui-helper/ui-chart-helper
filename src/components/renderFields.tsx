@@ -1,5 +1,6 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
 
 const renderInput = (key: string, value: any) => {
   switch (value.type) {
@@ -9,6 +10,7 @@ const renderInput = (key: string, value: any) => {
           type="text"
           defaultValue={value.defaultValue}
           placeholder="Enter hex color"
+          className="w-full p-2 border border-gray-300 rounded-md"
         />
       );
     case "number":
@@ -17,6 +19,7 @@ const renderInput = (key: string, value: any) => {
           type="number"
           defaultValue={value.defaultValue}
           placeholder="Enter number"
+          className="w-full p-2 border border-gray-300 rounded-md"
         />
       );
     case "string":
@@ -25,30 +28,42 @@ const renderInput = (key: string, value: any) => {
           type="text"
           defaultValue={value.defaultValue}
           placeholder="Enter text"
+          className="w-full p-2 border border-gray-300 rounded-md"
         />
       );
     case "alignment_select":
       return (
-        <select defaultValue={value.defaultValue}>
+        <Select
+          defaultValue={value.defaultValue}
+          className="w-full p-2 border border-gray-300 rounded-md"
+        >
           {value.options.map((option: string) => (
             <option key={option} value={option}>
               {option}
             </option>
           ))}
-        </select>
+        </Select>
       );
     default:
       return null;
   }
 };
 
-const renderFields = (fields: any) => {
+const getBackgroundColor = (depth: number) => {
+  const colors = ["bg-[#ffc107]", "bg-secondary", "bg-muted", "bg-destructive"];
+  return colors[depth % colors.length];
+};
+
+const renderFields = (fields: any, depth: number = 0) => {
   return Object.keys(fields).map((key) => {
     const value = fields[key];
+    const backgroundColor = getBackgroundColor(depth);
     if (value && typeof value === "object" && "type" in value) {
       return (
-        <div key={key} className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
+        <div key={key} className="mb-6">
+          <label
+            className={`block text-sm font-semibold text-gray-800 mb-2 ${backgroundColor}`}
+          >
             {key}
           </label>
           {renderInput(key, value)}
@@ -60,11 +75,15 @@ const renderFields = (fields: any) => {
       !Array.isArray(value)
     ) {
       return (
-        <div key={key} className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
+        <div key={key} className="mb-6">
+          <label
+            className={`block text-sm font-semibold text-gray-800 mb-2 ${backgroundColor}`}
+          >
             {key}
           </label>
-          <div className="ml-4">{renderFields(value)}</div>
+          <div className="ml-6 border-l-2 border-gray-200 pl-4">
+            {renderFields(value, depth + 1)}
+          </div>
         </div>
       );
     } else {

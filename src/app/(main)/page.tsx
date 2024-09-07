@@ -47,13 +47,15 @@ export default function Main() {
               </SelectContent>
             </Select>
           </div>
-          <div>{selectedChartSchema?.description}</div>
+          <div className="text-gray-700">
+            {selectedChartSchema?.description}
+          </div>
           <div className="grid gap-4">
-            <Card>
-              <CardHeader>
+            <Card className="shadow-lg rounded-lg">
+              <CardHeader className="bg-gray-800 text-white p-4 rounded-t-lg">
                 <CardTitle>Controls</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-4 bg-white rounded-b-lg">
                 {selectedChartSchema ? (
                   <form>
                     {selectedChartSchema.schema.map((control, index) => (
@@ -61,7 +63,9 @@ export default function Main() {
                     ))}
                   </form>
                 ) : (
-                  <div>여기에 넣을꺼야</div>
+                  <div>
+                    Hello, welcome to <b>UI Chart Helper</b> space 👾
+                  </div>
                 )}
               </CardContent>
             </Card>
