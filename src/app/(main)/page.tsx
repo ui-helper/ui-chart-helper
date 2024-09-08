@@ -1,22 +1,15 @@
 "use client";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useState, useEffect } from "react";
 import { ChartConfig, ChartControl } from "@/types/chartTypes";
 import chartConfig from "@/config/chartConfig.json";
-// import chartData1 from "@/data/chartData1.json";
 import chartData2 from "@/data/chartData2.json";
 import CodeViewer from "@/components/CodeViewer";
-import ChartComponent from "@/components/ChartComponent";
-import renderFields from "@/components/renderFields";
+import ChartSelector from "@/components/ChartSelector";
+import ChartControls from "@/components/ChartControls";
+import ChartArea from "@/components/ChartArea";
 
 export default function Main() {
   const [selectedChartId, setSelectedChartId] = useState<number>(1);
@@ -63,68 +56,28 @@ export default function Main() {
     <div className="flex flex-col min-h-screen w-full">
       <main className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 p-4 sm:p-6">
         <div className="flex flex-col gap-6">
-          <div className="h-30">
-            <Select
-              defaultValue="1"
-              onValueChange={(value) => setSelectedChartId(Number(value))}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Chart Type" />
-              </SelectTrigger>
-              <SelectContent>
-                {chartConfig.map((chart) => (
-                  <SelectItem key={chart.id} value={String(chart.id)}>
-                    {chart.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <ChartSelector
+            chartConfig={chartConfig as ChartConfig[]}
+            selectedChartId={selectedChartId}
+            setSelectedChartId={setSelectedChartId}
+          />
           <div className="text-gray-700">
             {selectedChartConfig?.description}
           </div>
           <div className="grid gap-4">
-            <Card className="shadow-lg rounded-lg">
-              <CardHeader className="bg-gray-800 text-white p-4 rounded-t-lg">
-                <CardTitle>Controls</CardTitle>
-              </CardHeader>
-              <CardContent className="p-4 bg-white rounded-b-lg">
-                {selectedChartConfig ? (
-                  <form>
-                    {Object.keys(selectedChartConfig.schema).map(
-                      (key, index) => (
-                        <div key={index}>
-                          {renderFields(
-                            selectedChartConfig.schema[key],
-                            0,
-                            handleChange,
-                            key
-                          )}
-                        </div>
-                      )
-                    )}
-                  </form>
-                ) : (
-                  <div>
-                    Hello, welcome to <b>UI Chart Helper</b> space 👾
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+            <ChartControls
+              selectedChartConfig={selectedChartConfig}
+              handleChange={handleChange}
+            />
           </div>
         </div>
 
         <div className="flex flex-col gap-6">
-          <div className="h-[500px] bg-muted p-2 rounded-md">
-            Chart Area
-            {selectedChartConfig && formData && (
-              <ChartComponent
-                config={selectedChartConfig}
-                data={chartData2}
-                formData={formData}
-              />
-            )}
-          </div>
+          <ChartArea
+            selectedChartConfig={selectedChartConfig}
+            formData={formData}
+            chartData={chartData2}
+          />
           <Tabs defaultValue="code">
             <TabsList>
               <TabsTrigger value="code">Code</TabsTrigger>
