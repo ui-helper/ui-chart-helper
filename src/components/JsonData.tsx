@@ -4,7 +4,7 @@ import { ChartContext } from "@/context";
 import { JsonEditor } from "json-edit-react";
 
 const JsonData = () => {
-  const { data } = useContext(ChartContext)!;
+  const { data, setData } = useContext(ChartContext)!;
 
   return (
     <Card className="flex-1">
@@ -12,7 +12,7 @@ const JsonData = () => {
         <CardTitle>Chart Data</CardTitle>
       </CardHeader>
       <CardContent>
-        <JsonEditor data={data} />
+        <JsonEditor data={data} setData={setData} />
       </CardContent>
     </Card>
   );

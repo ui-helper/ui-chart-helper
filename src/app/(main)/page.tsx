@@ -2,7 +2,7 @@
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useState, useEffect } from "react";
-import { ChartConfig, ChartControl } from "@/types/chartTypes";
+import { ChartConfig, ChartControl, ChartData } from "@/types/chartTypes";
 import chartConfig from "@/config/chartConfig.json";
 import chartData2 from "@/data/chartData2.json";
 import CodeViewer from "@/components/CodeViewer";
@@ -10,12 +10,15 @@ import ChartSelector from "@/components/ChartSelector";
 import ChartControls from "@/components/ChartControls";
 import ChartArea from "@/components/ChartArea";
 import { ChartContext } from "@/context";
-import JsonData from "@/components/JsonData";
+import JsonDataEditor from "@/components/JsonData";
+import type { JsonData } from "json-edit-react";
 
 export default function Main() {
   const [selectedChartId, setSelectedChartId] = useState<number>(1);
 
   const [formData, setFormData] = useState<ChartControl | null>(null);
+
+  const [chartData, setChartData] = useState<ChartData | JsonData>(chartData2);
 
   const selectedChartConfig = (chartConfig as ChartConfig[]).find(
     (chart) => chart.id === selectedChartId
@@ -55,7 +58,13 @@ export default function Main() {
   };
 
   return (
-    <ChartContext.Provider value={{ formData, data: chartData2 }}>
+    <ChartContext.Provider
+      value={{
+        formData,
+        data: chartData as ChartData,
+        setData: (data) => setChartData(data),
+      }}
+    >
       <div className="flex flex-col min-h-screen w-full">
         <main className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 p-4 sm:p-6">
           <div className="flex flex-col gap-6">
@@ -79,7 +88,7 @@ export default function Main() {
             <ChartArea
               selectedChartConfig={selectedChartConfig}
               formData={formData}
-              chartData={chartData2}
+              chartData={chartData as ChartData}
             />
             <Tabs defaultValue="code">
               <TabsList>
@@ -90,7 +99,7 @@ export default function Main() {
                 <CodeViewer />
               </TabsContent>
               <TabsContent value="data">
-                <JsonData />
+                <JsonDataEditor />
               </TabsContent>
             </Tabs>
           </div>
