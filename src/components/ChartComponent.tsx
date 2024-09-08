@@ -34,9 +34,9 @@ const ChartComponent: FC<ChartComponentProps> = ({
             data={data}
             style={{
               data: {
-                fill: formData.chartStyle.fillColor.value,
-                stroke: formData.chartStyle.stroke.color.value,
-                strokeWidth: formData.chartStyle.stroke.width.value,
+                fill: formData?.chartStyle?.fillColor.value,
+                stroke: formData?.chartStyle?.stroke?.color.value,
+                strokeWidth: formData?.chartStyle?.stroke?.width.value,
               },
             }}
             labels={({ datum }) => `(${datum.x},${datum.y})`}

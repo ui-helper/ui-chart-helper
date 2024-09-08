@@ -27,24 +27,9 @@ export default function Main() {
   );
 
   useEffect(() => {
-    setFormData(null);
-    if (selectedChartConfig && formData) {
-      const updatedSchema = { ...selectedChartConfig.schema };
-      Object.keys(formData).forEach((key) => {
-        const keys = key.split(".");
-        let current = updatedSchema;
-        for (let i = 0; i < keys.length - 1; i++) {
-          current = current[keys[i]];
-        }
-        const lastKey = keys[keys.length - 1];
-        if (
-          current[lastKey] &&
-          current[lastKey].value !== formData[key].value
-        ) {
-          current[lastKey].value = formData[key].value;
-        }
-      });
-      setFormData(updatedSchema);
+    if (selectedChartConfig) {
+      const initialFormData = { ...selectedChartConfig.schema };
+      setFormData(initialFormData);
     }
   }, [selectedChartConfig]);
 
@@ -54,16 +39,23 @@ export default function Main() {
 
       const keys = key.split(".");
       let current = { ...prevData };
-      let temp = current;
+      let temp: any = current;
+
       for (let i = 0; i < keys.length - 1; i++) {
-        temp[keys[i]] = { ...temp[keys[i]] };
+        if (!temp[keys[i]]) {
+          temp[keys[i]] = {};
+        } else {
+          temp[keys[i]] = { ...temp[keys[i]] };
+        }
         temp = temp[keys[i]];
       }
+
       temp[keys[keys.length - 1]] = {
         ...temp[keys[keys.length - 1]],
         value: newValue,
       };
-      return current;
+
+      return current as ChartControl;
     });
   };
 
