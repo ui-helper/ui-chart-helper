@@ -11,10 +11,11 @@ import { VictoryBar } from "victory";
 import { ChartContext } from "@/context";
 
 const CodeViewer = () => {
-  const { formData, data } = useContext(ChartContext)!;
+  const { formData } = useContext(ChartContext)!;
   const codeString = reactElementToJSXString(
     <VictoryBar
-      data={data}
+      // @ts-ignore
+      data="data"
       style={{
         data: {
           fill: formData?.chartStyle?.fillColor.value,
