@@ -1,8 +1,7 @@
 "use client";
 
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { useState, useEffect, useContext, createContext } from "react";
+import { useState, useEffect } from "react";
 import { ChartConfig, ChartControl } from "@/types/chartTypes";
 import chartConfig from "@/config/chartConfig.json";
 import chartData2 from "@/data/chartData2.json";
@@ -11,6 +10,7 @@ import ChartSelector from "@/components/ChartSelector";
 import ChartControls from "@/components/ChartControls";
 import ChartArea from "@/components/ChartArea";
 import { ChartContext } from "@/context";
+import JsonData from "@/components/JsonData";
 
 export default function Main() {
   const [selectedChartId, setSelectedChartId] = useState<number>(1);
@@ -90,16 +90,7 @@ export default function Main() {
                 <CodeViewer />
               </TabsContent>
               <TabsContent value="data">
-                <Card className="flex-1">
-                  <CardHeader>
-                    <CardTitle>JSON Data</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <pre className="overflow-auto p-4 bg-muted rounded-md">
-                      {JSON.stringify(chartData2, null, 2)}
-                    </pre>
-                  </CardContent>
-                </Card>
+                <JsonData />
               </TabsContent>
             </Tabs>
           </div>
