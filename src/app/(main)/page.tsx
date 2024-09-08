@@ -10,24 +10,24 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useState, useEffect } from "react";
-import { ChartConfig } from "@/types/chartTypes";
+import { ChartConfig, ChartControl } from "@/types/chartTypes";
 import chartConfig from "@/config/chartConfig.json";
-import chartData1 from "@/data/chartData1.json";
+// import chartData1 from "@/data/chartData1.json";
 import chartData2 from "@/data/chartData2.json";
 import CodeViewer from "@/components/CodeViewer";
 import ChartComponent from "@/components/ChartComponent";
 import renderFields from "@/components/renderFields";
-import ApplyButton from "@/components/ApplyButton";
 
 export default function Main() {
-  const [selectedChartId, setSelectedChartId] = useState<number | null>(null);
-  const [formData, setFormData] = useState<Record<string, any>>(null);
+  const [selectedChartId, setSelectedChartId] = useState<number>(1);
+  const [formData, setFormData] = useState<ChartControl | null>(null);
 
   const selectedChartConfig = (chartConfig as ChartConfig[]).find(
     (chart) => chart.id === selectedChartId
   );
 
   useEffect(() => {
+    setFormData(null);
     if (selectedChartConfig && formData) {
       const updatedSchema = { ...selectedChartConfig.schema };
       Object.keys(formData).forEach((key) => {
@@ -45,16 +45,13 @@ export default function Main() {
         }
       });
       setFormData(updatedSchema);
-    } else if (selectedChartConfig) {
-      setFormData(selectedChartConfig.schema);
     }
   }, [selectedChartConfig]);
 
   const handleChange = (key: string, newValue: any) => {
-    console.log("key", key);
-    console.log("newValue", newValue);
-
     setFormData((prevData) => {
+      if (!prevData) return prevData;
+
       const keys = key.split(".");
       let current = { ...prevData };
       let temp = current;
@@ -68,8 +65,6 @@ export default function Main() {
       };
       return current;
     });
-
-    console.log("formData", formData);
   };
 
   return (
@@ -78,6 +73,7 @@ export default function Main() {
         <div className="flex flex-col gap-6">
           <div className="h-30">
             <Select
+              defaultValue="1"
               onValueChange={(value) => setSelectedChartId(Number(value))}
             >
               <SelectTrigger>
@@ -129,7 +125,7 @@ export default function Main() {
         <div className="flex flex-col gap-6">
           <div className="h-[500px] bg-muted p-2 rounded-md">
             Chart Area
-            {selectedChartConfig && (
+            {selectedChartConfig && formData && (
               <ChartComponent
                 config={selectedChartConfig}
                 data={chartData2}
